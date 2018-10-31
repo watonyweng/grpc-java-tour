@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+option java_generic_services = true;
+option java_multiple_files = true;
+option java_package = "me.weitao.grpc";
+option java_outer_classname = "PhoneBookProto";
+
+enum PhoneType {
+    HOME = 0;
+    WORK = 1;
+    OTHER = 2;
+}
+
+message User {
+    int32 id = 1;
+    string name = 2;
+    message Phone {
+        PhoneType phoneType = 1;
+        string phoneNumber = 2;
+    }
+    repeated Phone phones = 3;
+}
+
+message AddPhoneToUserRequest {
+    int32 userId = 1;
+    PhoneType phoneType = 2;
+    string phoneNumber = 3;
+}
+
+message AddPhoneToUserResponse {
+    bool result = 1;
+}
+
+service PhoneBookService {
+    rpc addPhoneToUser (AddPhoneToUserRequest) returns (AddPhoneToUserResponse);
+}
